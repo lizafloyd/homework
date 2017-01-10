@@ -50,7 +50,15 @@
         </div>
         <pre class="debug"></pre>
         <script>
-            // your code goes here ...
+          let household = []
+          console.log(window.location.href)
+          var fam = document.getElementsByClassName('household')[0]
+          console.log(fam)
+          var member = document.createElement('li')
+          var age = document.createTextNode("10")
+          member.appendChild(age)
+          console.log(member)
+          fam.appendChild(member)
         </script>
     </body>
 </html>
