@@ -51,44 +51,41 @@
   <pre class="debug"></pre>
   <script>
   //submit with json functionality
-  document.forms[0].elements[4].onclick = function(e){
+  document.forms[0].elements[4].setAttribute("id", "submit")
+  document.getElementById("submit").onclick = function(e){
     e.preventDefault()
     alert("Submitted. JSON available in debug element.")
-    let data = localStorage.getItem('household')
-    let response = JSON.stringify(data)
+    let response = JSON.stringify(localStorage.getItem('household'))
     let text = document.createTextNode(response)
     let debug = document.getElementsByClassName('debug')[0]
     debug.appendChild(text)
   }
   //household builder
-  let input = window.location.href
-  let inputArray = input.split("?")
-  let memberInput = inputArray[1]
-  let info = memberInput.split("&")
-  let info2 = info.map((x) => {
+  let input = window.location.href.split("?")
+  let memberInput = input[1]
+  let info = memberInput.split("&").map((x) => {
     let y = x.split("=")
     return y[1]
   })
-  let age = parseInt(info2[0])
-  if(isNaN(age) || age < 0 || info2[1] == ""){
+  let age = parseInt(info[0])
+  if(isNaN(age) || age < 0 || info[1] == ""){
     alert("Invalid Entry. Please enter valid data to see household.")
   } else {
     var Individual = function(information) {
       this.age = information[0]
       this.relationship = information[1]
-      this.smoker = information [2]
+      this.smoker = information[2]
       this.person = () => {
         return [this.age, this.relationship, this.smoker]
       }
     }
-    let familyMember = new Individual(info2)
+    let familyMember = new Individual(info)
     let householdString = localStorage.getItem('household')
     if(householdString == null){
       var household = []
     } else {
       var household = JSON.parse(householdString)
     }
-    console.log(householdString)
     household.push(familyMember)
     localStorage.setItem("household", JSON.stringify(household))
     household.forEach((x) => {
@@ -96,7 +93,8 @@
       let fam = document.getElementsByClassName('household')[0]
       let member = document.createElement('li')
       let button = document.createElement('button')
-      button.className = x.relationship
+      button.className = "custom"
+      button.id = x.relationship
       button.innerHTML = "Remove"
       member.appendChild(person)
       member.appendChild(button)
@@ -104,14 +102,11 @@
     })
   }
   //remove
-  var buttons = document.getElementsByTagName('button')
-  for(i=0; i<buttons.length; i++){
-    buttons[i].onclick = function(e){
-      var buttonName = this.className
+  for(i=0; i<document.getElementsByClassName('custom').length; i++){
+    document.getElementsByClassName('custom')[i].onclick = function(e){
+      var buttonName = this.id
       household.forEach(function(obj, index){
         if(obj.relationship == buttonName){
-          console.log(obj.relationship)
-          console.log(buttonName)
           household.splice(1, index)
         }
         localStorage.setItem("household", JSON.stringify(household))

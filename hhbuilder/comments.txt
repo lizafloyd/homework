@@ -3,3 +3,5 @@ Hello!
 Thanks for joining me.
 
 In a formal app, I would use a database to store the household.  For the purposes of this test, I've used localStorage.
+
+Thanks for your time!
