@@ -95,9 +95,28 @@
       let person = document.createTextNode(x.relationship)
       let fam = document.getElementsByClassName('household')[0]
       let member = document.createElement('li')
+      let button = document.createElement('button')
+      button.className = x.relationship
+      button.innerHTML = "Remove"
       member.appendChild(person)
+      member.appendChild(button)
       fam.appendChild(member)
     })
+  }
+  //remove
+  var buttons = document.getElementsByTagName('button')
+  for(i=0; i<buttons.length; i++){
+    buttons[i].onclick = function(e){
+      var buttonName = this.className
+      household.forEach(function(obj, index){
+        if(obj.relationship == buttonName){
+          console.log(obj.relationship)
+          console.log(buttonName)
+          household.splice(1, index)
+        }
+        localStorage.setItem("household", JSON.stringify(household))
+      })
+    }
   }
   </script>
 </body>
